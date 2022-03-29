@@ -65,7 +65,7 @@ int main(){
     };*/
 
     char *sstr1 = (char*)malloc(10*sizeof(char));
-    char *sstr2 = (char*)malloc(10*sizeof(char));\
+    char *sstr2 = (char*)malloc(10*sizeof(char));
 
     char *str1 = (char*)malloc(100*sizeof(char));
 
