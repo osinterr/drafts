@@ -16,7 +16,7 @@ typedef struct someArgs_tag {
 } someArgs_t;
 
 static int arr[SIZE] = {0};
-//static pthread_mutex_t mutexes[SIZE];
+static pthread_mutex_t mutexes[SIZE];
 
 void* helloWorld(void *args) {
 	someArgs_t *arg = (someArgs_t*) args;
@@ -25,19 +25,16 @@ void* helloWorld(void *args) {
 		return BAD_MESSAGE;
 	}
 
-	printf("Message is: %s, strken = %d\n", arg->msg, strlen(arg->msg));
 
     int current = 1;
     for(int i = 0; i < strlen(arg->msg); ++i){
         if(arg->msg[i] == arg->msg[i+1]){
-			printf("%c == %c\n", arg->msg[i], arg->msg[i+1]);
             current++;
 		}
-        else if((arg->msg[i] != arg->msg[i+1]) || (arg->msg[i+1] == '\0')){
-			//pthread_mutex_lock(&mutexes[current]);
+        else{
+			pthread_mutex_lock(&mutexes[current]);
             arr[current]++;
-			printf("arr[%d] = %d\n", current, arr[current]);
-			//pthread_mutex_unlock(&mutexes[current]);
+			pthread_mutex_unlock(&mutexes[current]);
             current = 1;
         }
     }
@@ -55,7 +52,6 @@ char** subString (const char* input)
     for(int i = 0; i < NUM_THREADS; i++){
         len = input_len / NUM_THREADS;
 		end += len;
-		//aaa bb c rr mm ll jj p ss ll uuu iiiiiiiii kk
         while(input[end-1] == input[end]){
             len++; end++;
         }
@@ -77,12 +73,11 @@ int main() {
 	int i;
 	int status_addr;
 	someArgs_t args[NUM_THREADS];
-	//for (int i = 0; i < SIZE; i++)
-        //pthread_mutex_init(&mutexes[i], NULL);
+
+	for (int i = 0; i < SIZE; i++)
+        pthread_mutex_init(&mutexes[i], NULL);
+
 	const char *sstr = "aaabbcrrmmlljjpsslluuuiiiiiiiiikk";
-	//const char *sstr = "qwertyuio";
-	// aaa bb c rr mm ll jj p ss ll uuu iiiiiii kk
-	// aaa bb c rr		mm ll jj p ss		ll uuu iiiiiiiii		ikk
 	char** messages = subString(sstr);
 	/*const char *messages[] = {
 		"aaabbc",
@@ -94,7 +89,6 @@ int main() {
 	for (i = 0; i < NUM_THREADS; i++) {
 		args[i].id = i;
 		args[i].msg = messages[i];
-		//printf("message = %s\n", args[i].msg);
 	}
 
 	for (i = 0; i < NUM_THREADS; i++) {
