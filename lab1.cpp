@@ -50,7 +50,6 @@ void print_ans(char symb, int lenth){
 
 int main(){
     int arr1[SIZE] = {0};
-    int arr2[SIZE] = {0};
     /*char sstr[] = {'u', 'u', 'u',
                 '1', 
                 'w', 'w', 'w', 
@@ -65,12 +64,11 @@ int main(){
     };*/
 
     char *sstr1 = (char*)malloc(10*sizeof(char));
-    char *sstr2 = (char*)malloc(10*sizeof(char));
 
     char *str1 = (char*)malloc(100*sizeof(char));
 
-    for(int i = 0; i < sizeof(sstr1); i++)
-        printf("%c", sstr1[i]);
+    /*for(int i = 0; i < sizeof(sstr1); i++)
+        printf("%c", sstr1[i]);*/
 
 
     amount_different(arr1, sstr1);
@@ -78,10 +76,6 @@ int main(){
     char symb1 = find_symbol(sstr1, lenth1);
     print_ans(symb1, lenth1);
 
-    amount_different(arr2, sstr2);
-    int lenth2 = maxinmum_lenth(arr2);
-    char symb2 = find_symbol(sstr2, lenth2);
-    print_ans(symb2, lenth2);
 
     /*amount_different(arr, sstr);
     int lenth = maxinmum_lenth(arr);
